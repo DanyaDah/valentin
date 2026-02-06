@@ -1,0 +1,217 @@
+
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Question très importante 💘</title>
+  <style>
+    :root{
+      --bg1:#fff1f5;
+      --bg2:#f0f9ff;
+      --card:#ffffffcc;
+      --text:#111827;
+      --pink:#ff4d8d;
+      --pink2:#ff77a8;
+      --shadow: 0 20px 60px rgba(0,0,0,.12);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      background: radial-gradient(1200px 600px at 20% 10%, var(--bg2), transparent 60%),
+                  radial-gradient(1000px 700px at 80% 90%, var(--bg1), transparent 60%),
+                  linear-gradient(135deg, #ffffff, #fff7fb);
+      overflow:hidden;
+      padding:24px;
+    }
+    .card{
+      width:min(720px, 100%);
+      background:var(--card);
+      backdrop-filter: blur(10px);
+      border:1px solid rgba(255,255,255,.6);
+      border-radius:28px;
+      padding:28px;
+      box-shadow:var(--shadow);
+      position:relative;
+    }
+    .row{
+      display:flex;
+      gap:18px;
+      align-items:center;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
+    .char{
+      width:160px;height:160px;
+      border-radius:24px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:86px;
+      background: linear-gradient(135deg, #fff, #ffe4ef);
+      border:1px solid rgba(0,0,0,.06);
+      box-shadow: 0 10px 24px rgba(0,0,0,.08);
+      user-select:none;
+    }
+    h1{
+      margin:18px 0 8px;
+      text-align:center;
+      font-size: clamp(22px, 3.4vw, 34px);
+      letter-spacing:-.02em;
+    }
+    p{
+      margin:0 0 18px;
+      text-align:center;
+      opacity:.85;
+    }
+    .btns{
+      margin-top:10px;
+      display:flex;
+      gap:14px;
+      justify-content:center;
+      flex-wrap:wrap;
+      position:relative;
+    }
+    button{
+      border:0;
+      padding:14px 18px;
+      border-radius:999px;
+      font-size:16px;
+      cursor:pointer;
+      box-shadow: 0 12px 22px rgba(0,0,0,.10);
+      transition: transform .08s ease, box-shadow .2s ease;
+    }
+    button:active{ transform: scale(.98); }
+    .yes{
+      background: linear-gradient(135deg, var(--pink), var(--pink2));
+      color:white;
+      min-width:160px;
+    }
+    .no{
+      background: #111827;
+      color:white;
+      min-width:160px;
+      position:relative;
+    }
+    .result{
+      margin-top:18px;
+      padding:16px;
+      border-radius:18px;
+      background: rgba(255,255,255,.7);
+      border:1px solid rgba(0,0,0,.06);
+      text-align:center;
+      display:none;
+    }
+    .tiny{
+      font-size:13px;
+      opacity:.7;
+      margin-top:10px;
+      text-align:center;
+    }
+    .heart{
+      position:absolute;
+      font-size:18px;
+      animation: floatUp 1.4s ease forwards;
+      pointer-events:none;
+      filter: drop-shadow(0 6px 10px rgba(0,0,0,.15));
+    }
+    @keyframes floatUp{
+      0%{ transform: translateY(0) scale(.9); opacity:0; }
+      10%{opacity:1}
+      100%{ transform: translateY(-140px) scale(1.35); opacity:0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="row">
+      <!-- Remplace les emojis par des images si tu veux (voir plus bas) -->
+      <div class="char" id="char1" title="Personnage 1">🐻</div>
+      <div class="char" id="char2" title="Personnage 2">🐼</div>
+    </div>
+
+    <h1>Tristan Roger Camille Marsaud veux-tu être mon Valentin ? 💘</h1>
+    <p>Réfléchis bien… c’est une question extrêmement sérieuse 😌</p>
+
+    <div class="btns" id="btns">
+      <button class="yes" id="yesBtn">Ouiii 💞</button>
+      <button class="no" id="noBtn">Non 🙃</button>
+    </div>
+
+    <div class="result" id="result"></div>
+    <div class="tiny">Astuce : sur téléphone, le “Non” essaie aussi de s’échapper 😈</div>
+  </div>
+
+  <script>
+    const yesBtn = document.getElementById('yesBtn');
+    const noBtn = document.getElementById('noBtn');
+    const result = document.getElementById('result');
+    const card = document.querySelector('.card');
+
+    function popHearts(n=18){
+      const rect = card.getBoundingClientRect();
+      for(let i=0;i<n;i++){
+        const s = document.createElement('div');
+        s.className = 'heart';
+        s.textContent = Math.random() > 0.5 ? '💖' : '💘';
+        const x = rect.left + rect.width/2 + (Math.random()*220 - 110);
+        const y = rect.top + rect.height/2 + (Math.random()*60 - 30);
+        s.style.left = x + 'px';
+        s.style.top  = y + 'px';
+        s.style.fontSize = (16 + Math.random()*18) + 'px';
+        s.style.animationDuration = (1.1 + Math.random()*0.9) + 's';
+        document.body.appendChild(s);
+        setTimeout(()=>s.remove(), 1700);
+      }
+    }
+
+    yesBtn.addEventListener('click', () => {
+      result.style.display = 'block';
+      result.innerHTML = `
+        <h2 style="margin:0 0 8px;">YEAAAH 💞</h2>
+        <div style="font-size:18px;">Rendez-vous officiel validé 😎🍫</div>
+        <div style="margin-top:10px; opacity:.8;">(Tu peux maintenant faire un screen et me l’envoyer 😌)</div>
+      `;
+      popHearts(28);
+      noBtn.textContent = "Bon d’accord 😳";
+      noBtn.style.background = "#374151";
+    });
+
+    // Le bouton "Non" s’échappe : desktop (mouseover) + mobile (touchstart)
+    function moveNo(){
+      const btns = document.getElementById('btns');
+      const area = btns.getBoundingClientRect();
+      const btn = noBtn.getBoundingClientRect();
+
+      const padding = 6;
+      const maxX = area.width - btn.width - padding;
+      const maxY = 120;
+
+      const x = Math.max(padding, Math.random() * maxX);
+      const y = Math.max(padding, Math.random() * maxY);
+
+      noBtn.style.position = 'absolute';
+      noBtn.style.left = x + 'px';
+      noBtn.style.top  = y + 'px';
+      noBtn.style.transform = `rotate(${(Math.random()*10-5).toFixed(1)}deg)`;
+      noBtn.style.boxShadow = '0 16px 26px rgba(0,0,0,.14)';
+    }
+
+    noBtn.addEventListener('mouseenter', moveNo);
+    noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveNo(); }, {passive:false});
+
+    // Si vraiment il clique "Non" (rare), on répond quand même
+    noBtn.addEventListener('click', () => {
+      result.style.display = 'block';
+      result.innerHTML = `😮 Oups… je respecte, mais je retente demain.`;
+      popHearts(10);
+    });
+  </script>
+</body>
+</html>
